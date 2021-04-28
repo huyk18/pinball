@@ -93,11 +93,21 @@ public class Ball extends Items {
      * TODO 非弹性碰撞算法
      *
      * @param normalDirection 法线方向，弧度制
-     * @param collideLocation 理论相撞时小球位置
+     * @param collideLocation 理论相撞时小球位置，用于位置补偿
      */
     public void reflect(double normalDirection,Location collideLocation) {
-        double _directionAngle = (2.0 * normalDirection + Math.PI - directionAngle) % (2 * Math.PI);
-        setDirectionAngle(_directionAngle);
+        setDirectionAngle((2.0 * normalDirection + Math.PI - directionAngle) % (2 * Math.PI));
+        double cX=collideLocation.getX(),cY=collideLocation.getY();
+        double distance=this.getLocation().distance(collideLocation);
+        this.getLocation().set(cX+distance*cosDirectionAngle,cY+distance*sinDirectionAngle);
+    }
+
+    /**
+     * 小球反弹：改变小球方向，不补偿位置
+     * @param normalDirection 法线方向，弧度制
+     */
+    public void reflect(double normalDirection){
+        setDirectionAngle((2.0 * normalDirection + Math.PI - directionAngle) % (2 * Math.PI));
     }
 
     @Override

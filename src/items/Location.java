@@ -40,4 +40,11 @@ public class Location {
     public void setY(double y) {
         this.y = y;
     }
+
+    public double distance(Location l2){
+        return Math.sqrt((this.x-l2.x)*(this.x-l2.x)+(this.y- l2.y)*(this.y- l2.y));
+    }
+    public double connectAngle(Location l2) {
+        return Math.atan2(l2.getY() - this.getY(), l2.getX() - this.getX());
+    }
 }

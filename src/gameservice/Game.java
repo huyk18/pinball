@@ -56,11 +56,12 @@ public class Game {
 
             for (int i = 0; i < Constants.targetNumPerLevel; i++) {
                 Location nextLocation = new Location(
-                        Constants.distanceToSide + ((level % 2) / 2 + i) * Constants.distanceBalls,
+                        Constants.distanceToSide + ((level % 2) / 2.0 + i) * Constants.distanceBalls,
                         panelHeight - Constants.distanceToBottom);
                 int nextHitPoints = random.nextInt(20 + 5 * level) + 1;//TODO 合理的难度设置
                 double nextAngle = random.nextDouble();
-                switch (random.nextInt() % 3) {//随机选择几何形状
+                //switch (random.nextInt() % 3) {//随机选择几何形状
+                switch(0){//TODO dbg
                     case 0:
                         targets.add(new Circle(nextHitPoints, nextLocation, Constants.targetRadius));
                         break;
@@ -79,12 +80,8 @@ public class Game {
             if (balls.isEmpty()) {
                 status = Status_ready;
                 return;
-            } else
-                for (Iterator<Ball> ballIterator = balls.iterator(); ballIterator.hasNext(); ) {
-                    Ball next = ballIterator.next();
-
-                }
-            for (Iterator<Ball> ballIterator = balls.iterator(); ballIterator.hasNext(); ) {//TODO 使用更高效的算法求交和运动
+            }
+            else for (Iterator<Ball> ballIterator = balls.iterator(); ballIterator.hasNext(); ) {//TODO 使用更高效的算法求交和运动
                 Ball ball = ballIterator.next();
                 if (ball.isDelay()) ball.delay();
                 else {
@@ -109,7 +106,7 @@ public class Game {
      * @return 如果在正确的状态 (status_ready) 获取了正确范围内的位置，返回真
      */
     public boolean setNextMouseLoc(Location location) {
-        Location originLocation = new Location(panelWidth / 2, 0);
+        Location originLocation = new Location(panelWidth / 2.0, 0);
         double X = location.getX(), Y = location.getY();
         if ((status == Status_ready) && (X < panelWidth && X > 0 && Y < panelHeight && Y > 0)) {
             status = Status_run;

@@ -33,8 +33,4 @@ abstract public class Targets extends Items {
     public double distanceWithBall(Ball ball) {
         return Math.sqrt(Math.abs(Math.pow(this.getLocation().getX() - ball.getLocation().getX(), 2) + Math.pow(this.getLocation().getY() - ball.getLocation().getY(), 2)));
     }
-
-    public double connectAngle(Ball ball) {
-        return Math.atan2(ball.getLocation().getX() - this.getLocation().getX(), ball.getLocation().getY() - this.getLocation().getY());
-    }
 }

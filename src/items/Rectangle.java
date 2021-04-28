@@ -19,7 +19,7 @@ public class Rectangle extends Targets {
     @Override
     public boolean interactBalls(Ball ball) {
         if (distanceWithBall(ball) > radius + ball.radius) return false;
-        double connectAngle = connectAngle(ball);
+        double connectAngle = this.getLocation().connectAngle(ball.getLocation());
         //小球将接触的边，从angle对应的边按逆时针[0..4)
         int sideNo = (int) (Math.floor((connectAngle - angle - Math.PI / 4.0) / (Math.PI / 2.0))) % 4;
         if ((distanceWithBall(ball) * Math.abs(Math.sin(connectAngle - (angle + sideNo * Math.PI / 2.0)))) > (ball.radius + (this.radius * Math.sqrt(0.5))))
