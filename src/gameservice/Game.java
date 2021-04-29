@@ -59,17 +59,20 @@ public class Game {
                         Constants.distanceToSide + ((level % 2) / 2.0f + i) * Constants.distanceBalls,
                         panelHeight - Constants.distanceToBottom);
                 int nextHitPoints = random.nextInt(20 + 5 * level) + 1;//TODO 合理的难度设置
-                float nextAngle = random.nextFloat();
-                //switch (random.nextInt() % 3) {//随机选择几何形状
-                switch(1){//TODO dbg
-                    case 0:
+                float nextAngle = 2*Constants.PI*random.nextFloat();
+                switch (random.nextInt() % 4) {//随机选择几何形状
+                //switch(2){//TODO dbg
+                    case 0: //no target here, but at least one target in center
+                        if(i!=3)break;
+                    case 1:
                         targets.add(new Circle(nextHitPoints, nextLocation, Constants.targetRadius));
                         break;
-                    case 1:
+                    case 2:
                         targets.add(new Rectangle(nextHitPoints, nextLocation, Constants.targetRadius, nextAngle));
                         break;
-                    case 2:
+                    case 3:
                         targets.add(new Triangle(nextHitPoints, nextLocation, Constants.targetRadius, nextAngle));
+                        break;
                 }
             }
             status = Status_ready;
@@ -78,7 +81,7 @@ public class Game {
             return;
         } else { //status==Status_run 元素运动、相交检测
             if (balls.isEmpty()) {
-                status = Status_ready;
+                status = Status_prepare;
                 return;
             }
             else for (Iterator<Ball> ballIterator = balls.iterator(); ballIterator.hasNext(); ) {//TODO 使用更高效的算法求交和运动
