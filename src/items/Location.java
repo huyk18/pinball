@@ -3,19 +3,19 @@ package items;
 import java.awt.*;
 
 public class Location {
-    private double x;
-    private double y;
+    private float x;
+    private float y;
 
-    public Location(double x, double y) {
+    public Location(float x, float y) {
         set(x, y);
     }
 
     public Location(Point p) {
-        x = p.getX();
-        y = p.getY();
+        x = (float) p.getX();
+        y = (float) p.getY();
     }
 
-    public void set(double x, double y) {
+    public void set(float x, float y) {
         this.setX(x);
         this.setY(y);
     }
@@ -25,26 +25,26 @@ public class Location {
         this.setY(location.getY());
     }
 
-    public double getX() {
+    public float getX() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public double getY() {
+    public float getY() {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(float y) {
         this.y = y;
     }
 
-    public double distance(Location l2){
-        return Math.sqrt((this.x-l2.x)*(this.x-l2.x)+(this.y- l2.y)*(this.y- l2.y));
+    public float distance(Location l2){
+        return (float)Math.sqrt((this.x-l2.x)*(this.x-l2.x)+(this.y- l2.y)*(this.y- l2.y));
     }
-    public double connectAngle(Location l2) {
-        return Math.atan2(l2.getY() - this.getY(), l2.getX() - this.getX());
+    public float connectAngle(Location l2) {
+        return (float)Math.atan2(l2.getY() - this.getY(), l2.getX() - this.getX());
     }
 }

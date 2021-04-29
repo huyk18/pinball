@@ -6,10 +6,10 @@ import items.Targets;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Vector;
 
 public class Panel extends JPanel {
-    Image image = null;
     Vector<Ball> balls;
     Vector<Targets> targets;
 
@@ -21,14 +21,13 @@ public class Panel extends JPanel {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        drawBufferedImage();
-        g.drawImage(image, 0, 0, this);
+        g.drawImage(drawBufferedImage(), 0, 0, this);
     }
 
-    private void drawBufferedImage() {
-        image = createImage(Constants.panelWidth, Constants.panelHeight);
-        Graphics g = image.getGraphics();
-
+    private BufferedImage drawBufferedImage() {
+        BufferedImage image = new BufferedImage(Constants.panelWidth,Constants.panelHeight,BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = image.createGraphics();
+        g.setColor(Color.BLACK);
         ImageIcon imageBG = new ImageIcon(Constants.imageBGFileName);
         g.drawImage(imageBG.getImage(), 0, 0, this);
 
@@ -43,5 +42,6 @@ public class Panel extends JPanel {
                 ball.paintImage(g);
             }
         }
+        return image;
     }
 }

@@ -8,6 +8,6 @@ public interface Paint {
      *
      * @param g 统一的画笔
      */
-    void paintImage(Graphics g);
+    void paintImage(Graphics2D g);
 }
 

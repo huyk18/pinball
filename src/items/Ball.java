@@ -9,10 +9,10 @@ public class Ball extends Items {
      * angle 与x轴正半轴所成角度 [0,2*PI) 弧度制
      * 注意：由于窗体左上角为零点，角度为逆时针
      */
-    private double directionAngle;
-    private double speed;//pixel per frame
+    private float directionAngle;
+    private float speed;//Constants.PIxel per frame
     private int delay;
-    private double cosDirectionAngle, sinDirectionAngle;
+    private float cosDirectionAngle, sinDirectionAngle;
     private boolean isCollided = false;//是否经过碰撞，用于启用重力加速度
 
     /**
@@ -24,7 +24,7 @@ public class Ball extends Items {
      * @param location       弹球初始位置
      * @param ballDelay      弹球延迟发射帧数
      */
-    public Ball(double radius, double originalSpeed, double directionAngle, Location location, int ballDelay) {
+    public Ball(float radius, float originalSpeed, float directionAngle, Location location, int ballDelay) {
         this.radius = radius;
         speed = originalSpeed;
         setDirectionAngle(directionAngle);
@@ -44,15 +44,15 @@ public class Ball extends Items {
         return true;
     }
 
-    public double getSpeed() {
+    public float getSpeed() {
         return speed;
     }
 
-    public void setSpeed(double speed) {
+    public void setSpeed(float speed) {
         this.speed = speed;
     }
 
-    public double getDirectionAngle() {
+    public float getDirectionAngle() {
         return directionAngle;
     }
 
@@ -61,12 +61,12 @@ public class Ball extends Items {
      *
      * @param directionAngle 运动方向角
      */
-    public void setDirectionAngle(double directionAngle) {
+    public void setDirectionAngle(float directionAngle) {
         this.directionAngle = directionAngle;
-        directionAngle = directionAngle % (Math.PI * 2.0);
+        directionAngle = directionAngle % (Constants.PI * 2.0f);
         /* to accelerate the process */
-        cosDirectionAngle = Math.cos(directionAngle);
-        sinDirectionAngle = Math.sin(directionAngle);
+        cosDirectionAngle = (float) Math.cos(directionAngle);
+        sinDirectionAngle = (float) Math.sin(directionAngle);
     }
 
     /**
@@ -74,15 +74,15 @@ public class Ball extends Items {
      * TODO 在第一次碰撞前不受重力影响，
      */
     public void move() {
-        double speedX = speed * cosDirectionAngle;
-        double speedY = speed * sinDirectionAngle;
+        float speedX = speed * cosDirectionAngle;
+        float speedY = speed * sinDirectionAngle;
         if (isCollided()) {
             speedY += Constants.gravAcc;
-            speed = Math.sqrt(speedX * speedX + speedY * speedY);
-            setDirectionAngle(Math.atan2(speedY, speedX));
+            speed = (float) Math.sqrt(speedX * speedX + speedY * speedY);
+            setDirectionAngle((float) Math.atan2(speedY, speedX));
         }
-        double X = this.getLocation().getX();
-        double Y = this.getLocation().getY();
+        float X = this.getLocation().getX();
+        float Y = this.getLocation().getY();
         X += speedX;
         Y += speedY;
         this.getLocation().set(X, Y);
@@ -95,10 +95,10 @@ public class Ball extends Items {
      * @param normalDirection 法线方向，弧度制
      * @param collideLocation 理论相撞时小球位置，用于位置补偿
      */
-    public void reflect(double normalDirection,Location collideLocation) {
-        setDirectionAngle((2.0 * normalDirection + Math.PI - directionAngle) % (2 * Math.PI));
-        double cX=collideLocation.getX(),cY=collideLocation.getY();
-        double distance=this.getLocation().distance(collideLocation);
+    public void reflect(float normalDirection,Location collideLocation) {
+        setDirectionAngle((2.0f * normalDirection + Constants.PI - directionAngle) % (2 * Constants.PI));
+        float cX=collideLocation.getX(),cY=collideLocation.getY();
+        float distance=this.getLocation().distance(collideLocation);
         this.getLocation().set(cX+distance*cosDirectionAngle,cY+distance*sinDirectionAngle);
     }
 
@@ -106,14 +106,14 @@ public class Ball extends Items {
      * 小球反弹：改变小球方向，不补偿位置
      * @param normalDirection 法线方向，弧度制
      */
-    public void reflect(double normalDirection){
-        setDirectionAngle((2.0 * normalDirection + Math.PI - directionAngle) % (2 * Math.PI));
+    public void reflect(float normalDirection){
+        setDirectionAngle((2.0f * normalDirection + Constants.PI - directionAngle) % (2 * Constants.PI));
     }
 
     @Override
-    public void paintImage(Graphics g) {
+    public void paintImage(Graphics2D g) {
         //TODO
-        g.drawOval((int) (getLocation().getX() - radius), (int) (getLocation().getY() - radius), (int) (2.0 * radius), (int) (2.0 * radius));
+        g.drawOval((int) (getLocation().getX() - radius), (int) (getLocation().getY() - radius), (int) (2.0f * radius), (int) (2.0f * radius));
     }
 
     public boolean isCollided() {

@@ -56,12 +56,12 @@ public class Game {
 
             for (int i = 0; i < Constants.targetNumPerLevel; i++) {
                 Location nextLocation = new Location(
-                        Constants.distanceToSide + ((level % 2) / 2.0 + i) * Constants.distanceBalls,
+                        Constants.distanceToSide + ((level % 2) / 2.0f + i) * Constants.distanceBalls,
                         panelHeight - Constants.distanceToBottom);
                 int nextHitPoints = random.nextInt(20 + 5 * level) + 1;//TODO 合理的难度设置
-                double nextAngle = random.nextDouble();
+                float nextAngle = random.nextFloat();
                 //switch (random.nextInt() % 3) {//随机选择几何形状
-                switch(0){//TODO dbg
+                switch(1){//TODO dbg
                     case 0:
                         targets.add(new Circle(nextHitPoints, nextLocation, Constants.targetRadius));
                         break;
@@ -106,14 +106,14 @@ public class Game {
      * @return 如果在正确的状态 (status_ready) 获取了正确范围内的位置，返回真
      */
     public boolean setNextMouseLoc(Location location) {
-        Location originLocation = new Location(panelWidth / 2.0, 0);
-        double X = location.getX(), Y = location.getY();
+        Location originLocation = new Location(panelWidth / 2.0f, 0);
+        float X = location.getX(), Y = location.getY();
         if ((status == Status_ready) && (X < panelWidth && X > 0 && Y < panelHeight && Y > 0)) {
             status = Status_run;
             /* prepare for balls */
             for (int i = 0; i < nextBallsNum; i++) {
                 balls.add(new Ball(Constants.ballRadius, Constants.originalSpeed,
-                        -Math.atan2(location.getY() - originLocation.getY(), location.getX() - originLocation.getX()),
+                        (float) -Math.atan2(location.getY() - originLocation.getY(), location.getX() - originLocation.getX()),
                         originLocation, i * Constants.ballDelay));
             }
             return true;
@@ -152,24 +152,24 @@ public class Game {
      * @return 小球是否离开范围
      */
     boolean interactEdge(Ball ball) {
-        double X = ball.getLocation().getX(), Y = ball.getLocation().getY();
+        float X = ball.getLocation().getX(), Y = ball.getLocation().getY();
         if (X <= 0) {
             ball.getLocation().set(-X, Y);
             ball.reflect(0);
         } else if (X >= panelWidth) {
-            ball.getLocation().set(2.0 * panelWidth - X, Y);
+            ball.getLocation().set(2.0f * panelWidth - X, Y);
             ball.reflect(0);
         }
         if (Y <= 0) {
             ball.getLocation().set(X, -Y);
-            ball.reflect(Math.PI / 2.0);
+            ball.reflect(Constants.PI / 2.0f);
         } else if (Y >= panelHeight) {
             return true;
         }
         return false;
     }
 
-    public void repaintAll(Graphics g) {
+    public void repaintAll(Graphics2D g) {
         for (Ball ball : balls) {
             ball.paintImage(g);
         }
