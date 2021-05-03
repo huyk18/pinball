@@ -8,6 +8,8 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import static gameservice.Constants.hitFont;
+
 public class Triangle extends Targets {
 
     /**
@@ -45,12 +47,12 @@ public class Triangle extends Targets {
     public void paintImage(Graphics2D gParent) {
         BufferedImage image = new BufferedImage((int) (2.0f * radius), (int) (2.0f * radius), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = image.createGraphics();
-        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         //矩形画布旋转
-        g.rotate(Math.PI+this.angle, (int) radius, (int) radius);
+        g.rotate(Math.PI + this.angle, (int) radius, (int) radius);
         //画出三角形
-        g.setColor(Color.GREEN);
+        g.setColor(Color.CYAN);
         g.setStroke(new BasicStroke(Constants.lineWidthDiv2));
         float X1 = radius - radius * Constants.sqrt3 / 2.0f + Constants.sqrt3 * Constants.lineWidthDiv2,
                 Y1 = radius / 2.0f + Constants.lineWidthDiv2,
@@ -58,20 +60,20 @@ public class Triangle extends Targets {
                 Y2 = Y1,
                 X3 = radius,
                 Y3 = 2 * radius - 2 * Constants.lineWidthDiv2;
-        Path2D  triangle2D=new Path2D.Float();
-        triangle2D.moveTo(X1,Y1);
-        triangle2D.lineTo(X2,Y2);
-        triangle2D.lineTo(X3,Y3);
+        Path2D triangle2D = new Path2D.Float();
+        triangle2D.moveTo(X1, Y1);
+        triangle2D.lineTo(X2, Y2);
+        triangle2D.lineTo(X3, Y3);
         triangle2D.closePath();
         g.draw(triangle2D);
         //画布旋转回来
-        g.rotate(-(Math.PI+this.angle),(int)radius,(int)radius);
+        g.rotate(-(Math.PI + this.angle), (int) radius, (int) radius);
         //画出hitPoint
-        g.setColor(Color.BLACK);
+        g.setColor(Color.WHITE);
         String text = String.valueOf(this.getHitPoints());
-        g.setFont(new Font("Tekton Pro", Font.BOLD, 20));
+        g.setFont(hitFont);
         Rectangle2D textBounds2D = g.getFont().getStringBounds(text, new FontRenderContext(null, true, true));
-        g.drawString(text, (radius - (float) textBounds2D.getWidth() / 2.0f), (radius/*+(float)textBounds2D.getHeight()/2.0f*/));
+        g.drawString(text, (radius - (float) textBounds2D.getWidth() / 2.0f), (radius - (float) textBounds2D.getY() / 2f));
 
         gParent.drawImage(image, null, (int) (getLocation().getX() - radius), (int) (getLocation().getY() - radius));
     }

@@ -8,9 +8,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public enum Audio {
-    BGM(Constants.BGMFileName),
-
-    ;
+    BGM(Constants.audioBGMFileName),
+    Collide(Constants.audioCollideFileName),
+    GameOver(Constants.audioGameOverFileName);
 
     private String fileName;
 
@@ -19,7 +19,7 @@ public enum Audio {
     }
 
     public void play() {
-        Thread playerThread = null;
+        Thread playerThread;
         Audio thisName = this;
         playerThread = new Thread() {
             @Override
@@ -27,15 +27,13 @@ public enum Audio {
                 super.run();
                 do {
                     File file = new File(fileName);
-                    Player player = null;
+                    Player player;
                     FileInputStream stream;
                     try {
                         stream = new FileInputStream(file);
                         player = new Player(stream);
                         player.play();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (JavaLayerException e) {
+                    } catch (FileNotFoundException | JavaLayerException e) {
                         e.printStackTrace();
                     }
                 } while (thisName == BGM);            //仅BGM循环播放

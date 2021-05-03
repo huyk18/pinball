@@ -41,10 +41,11 @@ public class Location {
         this.y = y;
     }
 
-    public float distance(Location l2){
-        return (float)Math.sqrt((this.x-l2.x)*(this.x-l2.x)+(this.y- l2.y)*(this.y- l2.y));
+    public float distance(Location l2) {
+        return (float) Math.sqrt((this.x - l2.x) * (this.x - l2.x) + (this.y - l2.y) * (this.y - l2.y));
     }
+
     public float connectAngle(Location l2) {
-        return (float)Math.atan2(l2.getY() - this.getY(), l2.getX() - this.getX());
+        return (float) Math.atan2(l2.getY() - this.getY(), l2.getX() - this.getX());
     }
 }
