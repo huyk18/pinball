@@ -2,7 +2,7 @@ package items;
 
 import java.awt.*;
 
-public class Location {
+public class Location{
     private float x;
     private float y;
 

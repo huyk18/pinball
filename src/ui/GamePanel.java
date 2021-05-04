@@ -12,11 +12,22 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GamePanel extends JPanel {
     Game game;
 
     public GamePanel(Game game) {
+        java.util.Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                game.run();
+                repaint();
+            }
+        };
+        timer.schedule(timerTask, 0, 1000 / Constants.fps);
         this.game = game;
         addMouseListener(new MouseAdapter() {//判断小球发射和返回键
             @Override

@@ -11,9 +11,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
 
+/**
+ * 程序界面框架
+ * 继承自{@link JFrame},其它界面类被该类以cardLayout组织。
+ */
 public class Frame extends JFrame {
 
     private static final CardLayout cards = new CardLayout();
@@ -55,16 +57,6 @@ public class Frame extends JFrame {
 
         cards.show(mainPanel, "Menu");
         setVisible(true);
-
-        Timer timer = new Timer();
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                game.run();
-                gamePanel.repaint();
-            }
-        };
-        timer.schedule(timerTask, 0, 1000 / Constants.fps);
     }
 
     static void showHelp() {
